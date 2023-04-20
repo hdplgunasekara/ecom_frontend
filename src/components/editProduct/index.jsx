@@ -2,7 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button, Typography } from "@mui/material";
-import axios from "axios";
 import { ReactComponent as ArrowIcon } from "../../assets/arrow.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { SvgIcon } from "@mui/material";
@@ -12,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { LoadingOverlay } from "@mantine/core";
 import { useParams } from "react-router-dom";
-import { DataArrayRounded, Margin } from "@mui/icons-material";
 
 export default function EditProduct() {
   const navigate = useNavigate();
@@ -31,19 +29,35 @@ export default function EditProduct() {
     price: productForEdit.price,
     quantity: productForEdit.quantity,
   });
-
+//
+  React.useEffect(() => {
+    dispatch(getProductToEdit(id));
+  }, [dispatch, id]);
+//
+  React.useEffect(() => {
+    setFormData({
+      sku: productForEdit.sku,
+      product_name: productForEdit.product_name,
+      product_description: productForEdit.product_description,
+      price: productForEdit.price,
+      quantity: productForEdit.quantity,
+    });
+    setImageUrls(productForEdit.images ? productForEdit.images : []);
+  }, [productForEdit]);
+//
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-
+//
   const handleImageChange = (event) => {
     setIsImageAvailable(false);
     setImages(event.target.files);
   };
-
+//
   const handleSubmit = async (event) => {
     event.preventDefault();
+    //validate frontend text  fields and images
     if (images === null && imageUrls.length === 0) {
       setIsImageAvailable(true);
       return;
@@ -71,9 +85,9 @@ export default function EditProduct() {
       swal("Please enter the product name");
       return;
     }
-
     const data = new FormData();
     if (images !== null) {
+      console.log(images);
       for (let i = 0; i < images.length; i++) {
         data.append("images", images[i]);
       }

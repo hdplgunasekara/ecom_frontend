@@ -7,10 +7,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import { makeStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts ,deleteProduct } from "../../redux/productSlice";
-import { SvgIcon, IconButton } from "@mui/material";
+import { getProducts, deleteProduct } from "../../redux/productSlice";
+import { IconButton } from "@mui/material";
 import { ReactComponent as StarIcon } from "../../assets/starred.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete-icon.svg";
 import { ReactComponent as EditIcon } from "../../assets/edit-icon.svg";
@@ -18,13 +17,13 @@ import { getProductToEdit } from "../../redux/productSlice";
 import { useNavigate } from "react-router-dom";
 import { LoadingOverlay } from "@mantine/core";
 import Swal from "sweetalert";
-
+//
 export default function ProductTable() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.product);
   const { isLoading } = useSelector((state) => state.product);
-
+  //
   const handleDeleteClick = (id) => {
     console.log(id);
     Swal({
@@ -47,7 +46,7 @@ export default function ProductTable() {
       }
     });
   };
-
+  //
   return (
     <TableContainer component={Paper}>
       <LoadingOverlay visible={isLoading} overlayBlur={2} />

@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import ProductTable from "../../components/productTable";
 import { SvgIcon, IconButton } from "@mui/material";
 import { ReactComponent as StarIcon } from "../../assets/starred.svg";
 import { ReactComponent as ArrowIcon } from "../../assets/arrow.svg";
@@ -12,7 +11,7 @@ import { getSearchResult } from "../../redux/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
-
+//
 export default function SearchResult() {
   const navigate = useNavigate();
   const [search, setSearch] = React.useState("");
@@ -21,11 +20,11 @@ export default function SearchResult() {
   const { searchResult, searchResultLength } = useSelector(
     (state) => state.product
   );
-
+  //
   React.useEffect(() => {
     dispatch(getSearchResult(name));
-  }, []);
-
+  }, [dispatch, name]);
+  //
   const handleSearch = () => {
     if (search === "") {
       swal("Please enter a valid search term");
@@ -85,6 +84,7 @@ export default function SearchResult() {
                 bgcolor: "#001EB9",
                 textTransform: "none",
               }}
+              onClick={() => navigate("/add")}
             >
               New Product
             </Button>
@@ -99,6 +99,7 @@ export default function SearchResult() {
                 bgcolor: "white",
                 border: "2px solid #001EB9",
               }}
+              onClick={() => navigate("/favourite-product")}
             >
               <SvgIcon component={StarIcon} />
             </Button>

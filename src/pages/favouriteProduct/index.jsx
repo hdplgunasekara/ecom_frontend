@@ -6,8 +6,28 @@ import Typography from "@mui/material/Typography";
 import ProductTable from "../../components/productTable";
 import { SvgIcon } from "@mui/material";
 import { ReactComponent as StarIcon } from "../../assets/starred.svg";
-
+import swal from "sweetalert";
+import { useDispatch } from "react-redux";
+import { getProducts } from "../../redux/productSlice";
+import { useNavigate } from "react-router-dom";
+//
 export default function FavouriteProductList() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [search, setSearch] = React.useState("");
+//
+  React.useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+//
+  const handleSearch = () => {
+    if (search === "") {
+      swal("Please enter a valid search term");
+      return;
+    }
+    window.location.href = `/search/${search}`;
+  };
+//
   return (
     <div>
       <Box sx={{ px: 16, py: 2 }}>
@@ -29,6 +49,7 @@ export default function FavouriteProductList() {
             label="Search for products"
             type="search"
             variant="filled"
+            onChange={(e) => setSearch(e.target.value)}
             InputProps={{
               endAdornment: (
                 <Button
@@ -40,6 +61,7 @@ export default function FavouriteProductList() {
                     bgcolor: "#001EB9",
                     textTransform: "none",
                   }}
+                  onClick={handleSearch}
                 >
                   Search
                 </Button>
@@ -58,6 +80,7 @@ export default function FavouriteProductList() {
                 bgcolor: "#001EB9",
                 textTransform: "none",
               }}
+              onClick={() => navigate("/add")}
             >
               New Product
             </Button>
@@ -72,6 +95,7 @@ export default function FavouriteProductList() {
                 bgcolor: "white",
                 border: "2px solid #001EB9",
               }}
+              onClick={() => navigate("/favourite-product")}
             >
               <SvgIcon component={StarIcon} />
             </Button>

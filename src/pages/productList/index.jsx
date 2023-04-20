@@ -6,17 +6,30 @@ import Typography from "@mui/material/Typography";
 import ProductTable from "../../components/productTable";
 import { SvgIcon } from "@mui/material";
 import { ReactComponent as StarIcon } from "../../assets/starred.svg";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getProducts } from "../../redux/productSlice";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import swal from "sweetalert";
+//
 export default function ProductList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [search, setSearch] = React.useState("");
+  const { productList } = useSelector((state) => state.product);
+  //
   React.useEffect(() => {
     dispatch(getProducts());
-  }, []);
+  }, [dispatch]);
+  //
+  const handleSearch = () => {
+    if (search === "") {
+      swal("Please enter a valid search term");
+      return;
+    }
+    window.location.href = `/search/${search}`;
+  };
+  //
   return (
     <div>
       <Box sx={{ px: 16, py: 2 }}>
@@ -38,6 +51,7 @@ export default function ProductList() {
             label="Search for products"
             type="search"
             variant="filled"
+            onChange={(e) => setSearch(e.target.value)}
             InputProps={{
               endAdornment: (
                 <Button
@@ -49,6 +63,7 @@ export default function ProductList() {
                     bgcolor: "#001EB9",
                     textTransform: "none",
                   }}
+                  onClick={handleSearch}
                 >
                   Search
                 </Button>
@@ -82,6 +97,7 @@ export default function ProductList() {
                 bgcolor: "white",
                 border: "2px solid #001EB9",
               }}
+              onClick={() => navigate("/favourite-product")}
             >
               <SvgIcon component={StarIcon} />
             </Button>

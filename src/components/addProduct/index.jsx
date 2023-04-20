@@ -2,7 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button, Typography } from "@mui/material";
-import axios from "axios";
 import { ReactComponent as ArrowIcon } from "../../assets/arrow.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { SvgIcon } from "@mui/material";
@@ -10,7 +9,7 @@ import { addProduct, getProducts } from "../../redux/productSlice";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { LoadingOverlay } from "@mantine/core";
-
+//
 export default function AddProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,19 +23,20 @@ export default function AddProduct() {
     price: "",
     quantity: "",
   });
-
+  //
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  //
   const handleImageChange = (event) => {
     setIsImageAvailable(false);
     setImages(event.target.files);
   };
-
+  //
   const handleSubmit = async (event) => {
     event.preventDefault();
+    //validate frontend text  fields and images
     if (images === null) {
       setIsImageAvailable(true);
       return;
@@ -64,7 +64,6 @@ export default function AddProduct() {
       swal("Please enter the product name");
       return;
     }
-
     const data = new FormData();
     for (let i = 0; i < images.length; i++) {
       data.append("images", images[i]);

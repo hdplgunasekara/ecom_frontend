@@ -9,6 +9,7 @@ import AddProduct from "./components/addProduct";
 import EditProduct from "./components/editProduct";
 import { Provider } from "react-redux";
 import {store} from "./redux/store";
+import Error404 from "./pages/pageNotFound";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
             <Route exact path="/favourite-product" element={<FavouriteProductList />} />
             <Route exact path="/search/:name" element={<SearchResult />} />
           </Route>
+
+        {/* 404 page */}
+        <Route path="*" element={<Error404/>} />
         </Routes>
       </Router>
     </Provider>

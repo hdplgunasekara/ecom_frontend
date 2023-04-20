@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+//define api endpoint
 const URL = 'http://127.0.0.1:8080/'
-
+//define initial state
 const initialState = {
     isLoading: false,
     productList: [],
@@ -10,7 +10,8 @@ const initialState = {
     searchResultLength: 0,
     productForEdit: {},
 }
-
+// Create async thunks for making API calls to the backend server
+// get all products
 export const getProducts = createAsyncThunk('product/', async(payload) => {
     try {
         const res = await axios.get(URL+'product');
@@ -19,7 +20,7 @@ export const getProducts = createAsyncThunk('product/', async(payload) => {
         console.log(err)
     }
 })
-
+// get search result
 export const getSearchResult = createAsyncThunk('product/search', async(payload) => {
     try {
         const res = await axios.get(URL+`product/search?name=${payload}`);
@@ -28,7 +29,7 @@ export const getSearchResult = createAsyncThunk('product/search', async(payload)
         console.log(err)
     }
 })
-
+// get product to edit
 export const getProductToEdit = createAsyncThunk('product/getOne', async(payload) => {
       try {
         const res = await axios.get(URL+`product/get-one/${payload}`);
@@ -37,7 +38,7 @@ export const getProductToEdit = createAsyncThunk('product/getOne', async(payload
         console.log(err)
     }
 })
-
+// delete product
 export const deleteProduct = createAsyncThunk('product/delete', async(payload) => {
     try {
       const res = await axios.delete(URL+`product/delete?id=${payload}`);
@@ -46,7 +47,7 @@ export const deleteProduct = createAsyncThunk('product/delete', async(payload) =
       console.log(err)
   }
 })
-
+// add product
 export const addProduct = createAsyncThunk('product/add', async(payload) => {
     try {
         axios({
@@ -61,7 +62,7 @@ export const addProduct = createAsyncThunk('product/add', async(payload) => {
         console.log(err)
     }
 })
-
+// edit product
 export const editProduct = createAsyncThunk('product/edit', async(payload) => {
     try {
         axios({
@@ -76,7 +77,7 @@ export const editProduct = createAsyncThunk('product/edit', async(payload) => {
         console.log(err)
     }
 })
-
+//Define the product slice and its reducers
 const productSlice = createSlice({
     name: 'product',
     initialState,
@@ -147,8 +148,6 @@ const productSlice = createSlice({
         },
     }
 })
-
-// console.log(cartSlice)
 export const { clearProduct  } = productSlice.actions
 
 export default productSlice.reducer;
